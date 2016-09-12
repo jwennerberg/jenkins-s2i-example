@@ -39,8 +39,8 @@
   </markupFormatter>
   <jdks>
     <jdk>
-      <name>JDK-8</name>
-      <home>/usr/lib/jvm/java-1.8.0</home>
+      <name>ibmjava8</name>
+      <home>/opt/ibm/java</home>
       <properties/>
     </jdk>
   </jdks>

@@ -3,10 +3,8 @@ FROM rhel7/rhel
 
 MAINTAINER Red Hat Consulting
 
-ENV BASE_URL="http://192.168.121.1/" \
-  JDK_PKG=ibm-java-sdk-8.0-3.11-x86_64-archive.bin \
-  JDK_VERSION=1.8.0_sr3fp11 \
-  JAVA_HOME=/opt/ibm/java
+ENV JAVA_VERSION=1.8.0_sr3fp11 \
+    JAVA_HOME=/opt/ibm/java
 
 # Install headless Java
 USER root
@@ -15,11 +13,11 @@ RUN yum clean all && \
     yum-config-manager --enable rhel-7-server-rpms && \
     yum-config-manager --enable rhel-7-server-ose-3.2-rpms && \
     export INSTALL_PKGS="nss_wrapper gettext tar git" && \
-    yum clean all && \
     yum install -y --setopt=tsflags=nodocs install $INSTALL_PKGS && \
     rpm -V $INSTALL_PKGS && \
     yum clean all && \
-
+    BASE_URL="https://public.dhe.ibm.com/ibmdl/export/pub/systems/cloud/runtimes/java/8.0.3.11/linux/x64/" && \
+    JDK_PKG="ibm-java-sdk-8.0-3.11-x86_64-archive.bin" && \
     curl -s -o /tmp/ibm-java.bin ${BASE_URL}/${JDK_PKG} && \
     chmod +x /tmp/ibm-java.bin && \
     echo "INSTALLER_UI=silent" > /tmp/response.properties && \
@@ -29,7 +27,6 @@ RUN yum clean all && \
     /tmp/ibm-java.bin -i silent -f /tmp/response.properties && \
     rm /tmp/response.properties && \
     rm /tmp/ibm-java.bin && \
-
     mkdir -p /var/lib/jenkins && \
     chown -R 1001:0 /var/lib/jenkins && \
     chmod -R g+w /var/lib/jenkins

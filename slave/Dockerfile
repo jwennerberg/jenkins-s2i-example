@@ -31,10 +31,11 @@ RUN yum clean all && \
     chown -R 1001:0 /var/lib/jenkins && \
     chmod -R g+w /var/lib/jenkins
 
+ENV PATH="${JAVA_HOME}/bin:${PATH}"
+
 # Copy the entrypoint
 COPY configuration/* /var/lib/jenkins/
 USER 1001
 
 # Run the JNLP client by default
-# To use swarm client, specify "/var/lib/jenkins/run-swarm-client" as Command
 ENTRYPOINT ["/var/lib/jenkins/run-jnlp-client"]
